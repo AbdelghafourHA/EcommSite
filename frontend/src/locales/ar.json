@@ -1,0 +1,97 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "retry": "إعادة المحاولة",
+    "search": "بحث",
+    "all": "الكل",
+    "close": "إغلاق",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "add": "إضافة",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "categories": "الفئات",
+    "products": "المنتجات",
+    "cart": "السلة",
+    "about": "من نحن",
+    "contact": "اتصل بنا"
+  },
+  "home": {
+    "title": "مرحبا بكم في PHOENIX",
+    "subtitle": "أفضل المنتجات بأفضل الأسعار",
+    "featured": "المنتجات المميزة",
+    "browseCategories": "تصفح الفئات",
+    "viewAll": "عرض الكل"
+  },
+  "product": {
+    "inStock": "متوفر",
+    "outOfStock": "غير متوفر",
+    "addToCart": "أضف إلى السلة",
+    "orderWhatsApp": "اطلب عبر واتساب",
+    "discount": "خصم",
+    "price": "السعر",
+    "quantity": "الكمية",
+    "description": "الوصف",
+    "relatedProducts": "منتجات ذات صلة"
+  },
+  "cart": {
+    "title": "سلة التسوق",
+    "empty": "السلة فارغة",
+    "emptyMessage": "لم تقم بإضافة أي منتج بعد",
+    "continueShopping": "متابعة التسوق",
+    "subtotal": "المجموع الفرعي",
+    "total": "المجموع",
+    "checkout": "إتمام الطلب عبر واتساب",
+    "remove": "إزالة",
+    "itemAdded": "تمت إضافة المنتج إلى السلة"
+  },
+  "whatsapp": {
+    "greeting": "مرحبا، أريد طلب:",
+    "singleProduct": "مرحبا، أريد طلب هذا المنتج:",
+    "total": "المجموع",
+    "quantity": "الكمية",
+    "sendOrder": "إرسال الطلب"
+  },
+  "admin": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "dashboard": "لوحة التحكم",
+    "categories": "الفئات",
+    "products": "المنتجات",
+    "addCategory": "إضافة فئة",
+    "addProduct": "إضافة منتج",
+    "editCategory": "تعديل الفئة",
+    "editProduct": "تعديل المنتج",
+    "nameAr": "الاسم بالعربية",
+    "nameFr": "الاسم بالفرنسية",
+    "nameEn": "الاسم بالإنجليزية",
+    "slug": "الرابط",
+    "order": "الترتيب",
+    "isActive": "نشط",
+    "price": "السعر",
+    "stock": "المخزون",
+    "discount": "الخصم",
+    "images": "الصور",
+    "isAvailable": "متوفر",
+    "deleteConfirm": "هل أنت متأكد من الحذف؟",
+    "loginSuccess": "تم تسجيل الدخول بنجاح",
+    "loginError": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+  },
+  "footer": {
+    "about": "من نحن",
+    "contact": "اتصل بنا",
+    "followUs": "تابعنا",
+    "rights": "جميع الحقوق محفوظة"
+  }
+}

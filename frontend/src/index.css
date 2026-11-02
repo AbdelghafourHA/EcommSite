@@ -1,0 +1,71 @@
+/* src/index.css */
+@import "tailwindcss";
+
+/* -------------------------------------------------------------------------- */
+/*                              Theme tokens                                  */
+/* -------------------------------------------------------------------------- */
+@theme {
+  --font-sans: "Cairo", "Tajawal", system-ui, sans-serif;
+  --font-heading: "Tajawal", "Cairo", system-ui, sans-serif;
+
+  --color-primary-50: #fef6f0;
+  --color-primary-100: #fce8d8;
+  --color-primary-200: #f8cfae;
+  --color-primary-300: #f3ad7b;
+  --color-primary-400: #ee7f46;
+  --color-primary-500: #e85d24;
+  --color-primary-600: #d94514;
+  --color-primary-700: #b43411;
+  --color-primary-800: #902c15;
+  --color-primary-900: #752714;
+  --color-primary-950: #401107;
+
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              Base                                          */
+/* -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-stone-50, #fafaf9);
+  color: var(--color-stone-800, #292524);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[dir="rtl"] .flip-rtl {
+  transform: scaleX(-1);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5f4;
+}
+::-webkit-scrollbar-thumb {
+  background: #d6d3d1;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a29e;
+}

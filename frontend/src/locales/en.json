@@ -1,0 +1,97 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "search": "Search",
+    "all": "All",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "nav": {
+    "home": "Home",
+    "categories": "Categories",
+    "products": "Products",
+    "cart": "Cart",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Welcome to PHOENIX",
+    "subtitle": "The best products at the best prices",
+    "featured": "Featured products",
+    "browseCategories": "Browse categories",
+    "viewAll": "View all"
+  },
+  "product": {
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "addToCart": "Add to cart",
+    "orderWhatsApp": "Order on WhatsApp",
+    "discount": "Discount",
+    "price": "Price",
+    "quantity": "Quantity",
+    "description": "Description",
+    "relatedProducts": "Related products"
+  },
+  "cart": {
+    "title": "Shopping cart",
+    "empty": "Your cart is empty",
+    "emptyMessage": "You haven't added any products yet",
+    "continueShopping": "Continue shopping",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "checkout": "Order on WhatsApp",
+    "remove": "Remove",
+    "itemAdded": "Product added to cart"
+  },
+  "whatsapp": {
+    "greeting": "Hello, I'd like to order:",
+    "singleProduct": "Hello, I'd like to order this product:",
+    "total": "Total",
+    "quantity": "Quantity",
+    "sendOrder": "Send order"
+  },
+  "admin": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "dashboard": "Dashboard",
+    "categories": "Categories",
+    "products": "Products",
+    "addCategory": "Add category",
+    "addProduct": "Add product",
+    "editCategory": "Edit category",
+    "editProduct": "Edit product",
+    "nameAr": "Name (Arabic)",
+    "nameFr": "Name (French)",
+    "nameEn": "Name (English)",
+    "slug": "Slug",
+    "order": "Order",
+    "isActive": "Active",
+    "price": "Price",
+    "stock": "Stock",
+    "discount": "Discount",
+    "images": "Images",
+    "isAvailable": "Available",
+    "deleteConfirm": "Are you sure you want to delete?",
+    "loginSuccess": "Login successful",
+    "loginError": "Invalid email or password"
+  },
+  "footer": {
+    "about": "About",
+    "contact": "Contact",
+    "followUs": "Follow us",
+    "rights": "All rights reserved"
+  }
+}

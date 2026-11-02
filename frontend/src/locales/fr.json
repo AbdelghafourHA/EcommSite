@@ -1,0 +1,97 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "retry": "Réessayer",
+    "search": "Rechercher",
+    "all": "Tout",
+    "close": "Fermer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "add": "Ajouter",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "nav": {
+    "home": "Accueil",
+    "categories": "Catégories",
+    "products": "Produits",
+    "cart": "Panier",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Bienvenue chez PHOENIX",
+    "subtitle": "Les meilleurs produits aux meilleurs prix",
+    "featured": "Produits en vedette",
+    "browseCategories": "Parcourir les catégories",
+    "viewAll": "Voir tout"
+  },
+  "product": {
+    "inStock": "En stock",
+    "outOfStock": "Rupture de stock",
+    "addToCart": "Ajouter au panier",
+    "orderWhatsApp": "Commander sur WhatsApp",
+    "discount": "Remise",
+    "price": "Prix",
+    "quantity": "Quantité",
+    "description": "Description",
+    "relatedProducts": "Produits similaires"
+  },
+  "cart": {
+    "title": "Panier",
+    "empty": "Votre panier est vide",
+    "emptyMessage": "Vous n'avez pas encore ajouté de produit",
+    "continueShopping": "Continuer vos achats",
+    "subtotal": "Sous-total",
+    "total": "Total",
+    "checkout": "Commander sur WhatsApp",
+    "remove": "Retirer",
+    "itemAdded": "Produit ajouté au panier"
+  },
+  "whatsapp": {
+    "greeting": "Bonjour, je souhaite commander :",
+    "singleProduct": "Bonjour, je souhaite commander ce produit :",
+    "total": "Total",
+    "quantity": "Quantité",
+    "sendOrder": "Envoyer la commande"
+  },
+  "admin": {
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "dashboard": "Tableau de bord",
+    "categories": "Catégories",
+    "products": "Produits",
+    "addCategory": "Ajouter une catégorie",
+    "addProduct": "Ajouter un produit",
+    "editCategory": "Modifier la catégorie",
+    "editProduct": "Modifier le produit",
+    "nameAr": "Nom en arabe",
+    "nameFr": "Nom en français",
+    "nameEn": "Nom en anglais",
+    "slug": "Slug",
+    "order": "Ordre",
+    "isActive": "Actif",
+    "price": "Prix",
+    "stock": "Stock",
+    "discount": "Remise",
+    "images": "Images",
+    "isAvailable": "Disponible",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ?",
+    "loginSuccess": "Connexion réussie",
+    "loginError": "Email ou mot de passe invalide"
+  },
+  "footer": {
+    "about": "À propos",
+    "contact": "Contact",
+    "followUs": "Suivez-nous",
+    "rights": "Tous droits réservés"
+  }
+}
