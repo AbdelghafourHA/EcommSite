@@ -17,29 +17,31 @@ export default function Modal({ open, onClose, title, children, size = "md" }) {
   if (!open) return null;
 
   const sizes = {
-    sm: "max-w-md",
-    md: "max-w-lg",
-    lg: "max-w-2xl",
-    xl: "max-w-4xl",
+    sm: "sm:max-w-md",
+    md: "sm:max-w-lg",
+    lg: "sm:max-w-2xl",
+    xl: "sm:max-w-4xl",
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-stretch sm:items-center justify-center sm:p-4">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
       <div
-        className={`relative bg-white rounded-xl shadow-2xl w-full ${sizes[size]} max-h-[90vh] flex flex-col`}
+        className={`relative bg-white sm:rounded-xl shadow-2xl w-full ${sizes[size]} h-full sm:h-auto sm:max-h-[90vh] flex flex-col`}
       >
-        <div className="flex items-center justify-between p-4 border-b border-stone-200">
-          <h2 className="font-heading font-bold text-lg">{title}</h2>
+        <div className="flex items-center justify-between p-4 border-b border-stone-200 shrink-0">
+          <h2 className="font-heading font-bold text-base sm:text-lg truncate pe-3">
+            {title}
+          </h2>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-md hover:bg-stone-100"
+            className="p-2 -me-1.5 rounded-md hover:bg-stone-100 shrink-0"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="overflow-y-auto p-5">{children}</div>
+        <div className="overflow-y-auto p-4 sm:p-5 flex-1">{children}</div>
       </div>
     </div>
   );

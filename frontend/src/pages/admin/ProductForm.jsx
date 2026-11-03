@@ -16,7 +16,7 @@ const EMPTY = {
   description: { ar: "", fr: "", en: "" },
   price: "",
   discount: 0,
-  stock: "", // ← empty — forces admin to enter a number
+  stock: "",
   isAvailable: true,
   category: "",
   tags: "",
@@ -113,7 +113,6 @@ export default function ProductForm({ open, onClose, editing }) {
       return;
     }
 
-    // Extra guard: stock must be a valid number
     if (values.stock === "" || Number(values.stock) < 0) {
       toast.error(
         lang === "ar"
@@ -197,6 +196,7 @@ export default function ProductForm({ open, onClose, editing }) {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Titles */}
         <div>
           <label className="block text-sm font-medium mb-1.5">
             {t("admin.nameAr")} / {t("admin.nameFr")} / {t("admin.nameEn")}
@@ -208,7 +208,7 @@ export default function ProductForm({ open, onClose, editing }) {
               placeholder={t("admin.nameAr")}
               value={values.title.ar}
               onChange={(e) => handleChange("title.ar", e.target.value)}
-              className="px-3 py-2 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
+              className="px-3 py-2.5 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
             />
             <input
               required
@@ -216,7 +216,7 @@ export default function ProductForm({ open, onClose, editing }) {
               placeholder={t("admin.nameFr")}
               value={values.title.fr}
               onChange={(e) => handleChange("title.fr", e.target.value)}
-              className="px-3 py-2 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
+              className="px-3 py-2.5 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
             />
             <input
               required
@@ -224,11 +224,12 @@ export default function ProductForm({ open, onClose, editing }) {
               placeholder={t("admin.nameEn")}
               value={values.title.en}
               onChange={(e) => handleChange("title.en", e.target.value)}
-              className="px-3 py-2 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
+              className="px-3 py-2.5 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
             />
           </div>
         </div>
 
+        {/* Descriptions */}
         <div>
           <label className="block text-sm font-medium mb-1.5">
             {t("product.description")}
@@ -236,7 +237,7 @@ export default function ProductForm({ open, onClose, editing }) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <textarea
               dir="rtl"
-              rows={3}
+              rows={2}
               placeholder={t("admin.nameAr")}
               value={values.description.ar}
               onChange={(e) => handleChange("description.ar", e.target.value)}
@@ -244,7 +245,7 @@ export default function ProductForm({ open, onClose, editing }) {
             />
             <textarea
               dir="ltr"
-              rows={3}
+              rows={2}
               placeholder={t("admin.nameFr")}
               value={values.description.fr}
               onChange={(e) => handleChange("description.fr", e.target.value)}
@@ -252,7 +253,7 @@ export default function ProductForm({ open, onClose, editing }) {
             />
             <textarea
               dir="ltr"
-              rows={3}
+              rows={2}
               placeholder={t("admin.nameEn")}
               value={values.description.en}
               onChange={(e) => handleChange("description.en", e.target.value)}
@@ -261,8 +262,9 @@ export default function ProductForm({ open, onClose, editing }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="col-span-2">
+        {/* Category + numbers */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
             <label className="block text-sm font-medium mb-1.5">
               {t("admin.categories")}
             </label>
@@ -270,7 +272,7 @@ export default function ProductForm({ open, onClose, editing }) {
               required
               value={values.category}
               onChange={(e) => handleChange("category", e.target.value)}
-              className="w-full px-3 py-2 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
+              className="w-full px-3 py-2.5 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
             >
               <option value="">—</option>
               {categories.map((c) => (
@@ -291,9 +293,12 @@ export default function ProductForm({ open, onClose, editing }) {
               step="0.01"
               value={values.price}
               onChange={(e) => handleChange("price", e.target.value)}
-              className="w-full px-3 py-2 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
+              className="w-full px-3 py-2.5 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
             />
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label className="block text-sm font-medium mb-1.5">
               {t("admin.discount")} %
@@ -304,12 +309,9 @@ export default function ProductForm({ open, onClose, editing }) {
               max="100"
               value={values.discount}
               onChange={(e) => handleChange("discount", e.target.value)}
-              className="w-full px-3 py-2 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
+              className="w-full px-3 py-2.5 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
             />
           </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-medium mb-1.5">
               {t("admin.stock")}
@@ -321,18 +323,21 @@ export default function ProductForm({ open, onClose, editing }) {
               placeholder="0"
               value={values.stock}
               onChange={(e) => handleChange("stock", e.target.value)}
-              className="w-full px-3 py-2 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
+              className="w-full px-3 py-2.5 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
             />
-            <p className="text-xs text-stone-500 mt-1">
+            <p className="text-[10px] text-stone-500 mt-1">
               {lang === "ar"
-                ? "0 = غير متوفر في المتجر"
+                ? "0 = غير متوفر"
                 : lang === "fr"
-                ? "0 = épuisé sur la boutique"
-                : "0 = shown as out of stock on the store"}
+                ? "0 = épuisé"
+                : "0 = out of stock"}
             </p>
           </div>
-          <div className="flex items-end">
-            <label className="flex items-center gap-2 cursor-pointer pb-2">
+          <div>
+            <label className="block text-sm font-medium mb-1.5 invisible">
+              —
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer px-3 py-2.5 border border-stone-200 rounded-md">
               <input
                 type="checkbox"
                 checked={values.isAvailable}
@@ -346,6 +351,7 @@ export default function ProductForm({ open, onClose, editing }) {
           </div>
         </div>
 
+        {/* Tags */}
         <div>
           <label className="block text-sm font-medium mb-1.5">
             Tags (comma-separated)
@@ -354,12 +360,13 @@ export default function ProductForm({ open, onClose, editing }) {
             value={values.tags}
             onChange={(e) => handleChange("tags", e.target.value)}
             placeholder="pizza, cheese, hot"
-            className="w-full px-3 py-2 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
+            className="w-full px-3 py-2.5 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-sm"
           />
         </div>
 
+        {/* Images */}
         <div>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-2 gap-2">
             <label className="block text-sm font-medium">
               {t("admin.images")} ({totalImages}/8)
             </label>
@@ -370,7 +377,12 @@ export default function ProductForm({ open, onClose, editing }) {
               className="flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 disabled:text-stone-400 disabled:cursor-not-allowed"
             >
               <ImagePlus className="w-4 h-4" />
-              {t("admin.uploadImages")}
+              <span className="hidden sm:inline">
+                {t("admin.uploadImages")}
+              </span>
+              <span className="sm:hidden">
+                {lang === "ar" ? "رفع" : lang === "fr" ? "Charger" : "Upload"}
+              </span>
             </button>
           </div>
           <input
@@ -382,7 +394,7 @@ export default function ProductForm({ open, onClose, editing }) {
             className="hidden"
           />
 
-          <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
             {existingImages.map((url) => (
               <div
                 key={url}
@@ -392,7 +404,7 @@ export default function ProductForm({ open, onClose, editing }) {
                 <button
                   type="button"
                   onClick={() => removeExistingImage(url)}
-                  className="absolute top-1 end-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition"
+                  className="absolute top-1 end-1 p-1 bg-red-500 text-white rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -408,7 +420,7 @@ export default function ProductForm({ open, onClose, editing }) {
                 <button
                   type="button"
                   onClick={() => removeNewFile(i)}
-                  className="absolute top-1 end-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition"
+                  className="absolute top-1 end-1 p-1 bg-red-500 text-white rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -419,7 +431,7 @@ export default function ProductForm({ open, onClose, editing }) {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="aspect-square border-2 border-dashed border-stone-300 rounded-md flex flex-col items-center justify-center text-stone-400 hover:border-primary-400 hover:text-primary-600 transition col-span-2"
+                className="aspect-square border-2 border-dashed border-stone-300 rounded-md flex flex-col items-center justify-center text-stone-400 hover:border-primary-400 hover:text-primary-600 transition col-span-3"
               >
                 <Upload className="w-6 h-6 mb-1" />
                 <span className="text-xs">Upload</span>
@@ -428,19 +440,20 @@ export default function ProductForm({ open, onClose, editing }) {
           </div>
         </div>
 
-        <div className="flex gap-2 justify-end pt-2 border-t border-stone-200">
+        {/* Actions */}
+        <div className="flex gap-2 justify-end pt-3 border-t border-stone-200 sticky bottom-0 bg-white -mx-5 px-5 -mb-5 pb-5">
           <button
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 text-sm border border-stone-200 rounded-md hover:bg-stone-50"
+            className="flex-1 sm:flex-none px-4 py-2.5 text-sm border border-stone-200 rounded-md hover:bg-stone-50"
           >
             {t("common.cancel")}
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-4 py-2 text-sm bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-md disabled:opacity-50"
+            className="flex-1 sm:flex-none px-4 py-2.5 text-sm bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-md disabled:opacity-50"
           >
             {isSubmitting ? t("common.loading") : t("common.save")}
           </button>

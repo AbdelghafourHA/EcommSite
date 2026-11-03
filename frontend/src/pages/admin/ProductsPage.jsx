@@ -79,15 +79,14 @@ export default function ProductsPage() {
 
   const handleToggle = (id) => {
     toggleMutation.mutate(id, {
-      onSuccess: () => {
+      onSuccess: () =>
         toast.success(
           lang === "ar"
             ? "تم تحديث حالة التوفر"
             : lang === "fr"
             ? "Disponibilité mise à jour"
             : "Availability updated"
-        );
-      },
+        ),
       onError: (err) => toast.error(err.message),
     });
   };
@@ -100,33 +99,36 @@ export default function ProductsPage() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-6 gap-3 flex-wrap">
-        <div>
-          <h1 className="font-heading font-bold text-2xl md:text-3xl">
+      <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3">
+        <div className="min-w-0">
+          <h1 className="font-heading font-bold text-xl sm:text-2xl md:text-3xl truncate">
             {t("admin.products")}
           </h1>
-          <p className="text-sm text-stone-500 mt-1">
+          <p className="text-xs sm:text-sm text-stone-500 mt-0.5">
             {data?.total ?? 0}{" "}
             {lang === "ar" ? "منتج" : lang === "fr" ? "produits" : "products"}
           </p>
         </div>
         <button
           onClick={openCreate}
-          className="flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white font-medium px-4 py-2 rounded-lg transition"
+          className="shrink-0 flex items-center gap-1.5 sm:gap-2 bg-primary-500 hover:bg-primary-600 text-white font-medium px-3 sm:px-4 py-2 text-sm rounded-lg transition"
         >
           <Plus className="w-4 h-4" />
-          {t("admin.addProduct")}
+          <span className="hidden sm:inline">{t("admin.addProduct")}</span>
+          <span className="sm:hidden">
+            {lang === "ar" ? "إضافة" : lang === "fr" ? "Ajouter" : "Add"}
+          </span>
         </button>
       </div>
 
       <form onSubmit={handleSearch} className="mb-4">
-        <div className="relative max-w-sm">
+        <div className="relative">
           <input
             type="search"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder={t("common.search")}
-            className="w-full px-4 py-2 ps-10 border border-stone-200 rounded-lg focus:border-primary-500 focus:outline-none"
+            className="w-full px-4 py-2 ps-10 border border-stone-200 rounded-lg focus:border-primary-500 focus:outline-none text-sm"
           />
           <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
         </div>
@@ -142,9 +144,9 @@ export default function ProductsPage() {
           ))}
         </div>
       ) : products.length === 0 ? (
-        <div className="bg-white border border-stone-200 rounded-xl p-12 text-center">
-          <div className="text-5xl mb-4">📦</div>
-          <p className="text-stone-500 mb-4">
+        <div className="bg-white border border-stone-200 rounded-xl p-8 sm:p-12 text-center">
+          <div className="text-4xl sm:text-5xl mb-3">📦</div>
+          <p className="text-stone-500 mb-4 text-sm">
             {lang === "ar"
               ? "لا توجد منتجات بعد"
               : lang === "fr"
@@ -153,14 +155,121 @@ export default function ProductsPage() {
           </p>
           <button
             onClick={openCreate}
-            className="text-primary-600 font-medium hover:underline"
+            className="text-primary-600 font-medium hover:underline text-sm"
           >
             {t("admin.addProduct")}
           </button>
         </div>
       ) : (
         <>
-          <div className="bg-white border border-stone-200 rounded-xl overflow-hidden">
+          {/* Mobile cards */}
+          <div className="lg:hidden space-y-2">
+            {products.map((p) => {
+              const title = p.title?.[lang] || p.title?.en || "—";
+              return (
+                <div
+                  key={p._id}
+                  className="bg-white border border-stone-200 rounded-lg p-3"
+                >
+                  <div className="flex gap-3 mb-2">
+                    <div className="w-16 h-16 rounded-md overflow-hidden bg-stone-100 shrink-0">
+                      {p.images?.[0] ? (
+                        <img
+                          src={p.images[0]}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-stone-300">
+                          📦
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-sm line-clamp-1">
+                        {title}
+                      </div>
+                      <div className="text-xs text-stone-400 font-mono line-clamp-1">
+                        {p.slug}
+                      </div>
+                      <div className="mt-1 flex items-baseline gap-2 flex-wrap">
+                        {p.discount > 0 ? (
+                          <>
+                            <span className="font-semibold text-primary-600 text-sm">
+                              {formatCurrency(p.discountedPrice, lang)}
+                            </span>
+                            <span className="text-xs text-stone-400 line-through">
+                              {formatCurrency(p.price, lang)}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="font-medium text-sm">
+                            {formatCurrency(p.price, lang)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-stone-100 gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span
+                        className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                          p.stock > 0
+                            ? "bg-stone-100 text-stone-600"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {t("admin.stock")}: {p.stock}
+                      </span>
+                      <button
+                        onClick={() => handleToggle(p._id)}
+                        disabled={toggleMutation.isPending}
+                        className={`inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full transition ${
+                          p.isAvailable
+                            ? "bg-green-100 text-green-700"
+                            : "bg-stone-100 text-stone-500"
+                        }`}
+                      >
+                        {p.isAvailable ? (
+                          <Eye className="w-3 h-3" />
+                        ) : (
+                          <EyeOff className="w-3 h-3" />
+                        )}
+                        {p.isAvailable ? "✓" : "✗"}
+                      </button>
+                    </div>
+                    <div className="flex gap-0.5">
+                      <button
+                        onClick={() => setDiscountTarget(p)}
+                        className="p-2 text-stone-500 hover:text-orange-600 hover:bg-orange-50 rounded"
+                        aria-label="Discount"
+                      >
+                        <Percent className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => openEdit(p)}
+                        className="p-2 text-stone-500 hover:text-primary-600 hover:bg-stone-100 rounded"
+                        aria-label="Edit"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => setDeleting(p)}
+                        className="p-2 text-stone-500 hover:text-danger hover:bg-red-50 rounded"
+                        aria-label="Delete"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop table */}
+          <div className="hidden lg:block bg-white border border-stone-200 rounded-xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-stone-50 border-b border-stone-200">
@@ -178,11 +287,7 @@ export default function ProductsPage() {
                       {t("admin.isAvailable")}
                     </th>
                     <th className="text-end px-4 py-3 text-xs font-semibold text-stone-500 uppercase">
-                      {lang === "ar"
-                        ? "الإجراءات"
-                        : lang === "fr"
-                        ? "Actions"
-                        : "Actions"}
+                      Actions
                     </th>
                   </tr>
                 </thead>
@@ -299,17 +404,17 @@ export default function ProductsPage() {
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={!pagination.hasPrevPage}
-                className="px-4 py-2 text-sm border border-stone-200 rounded-md disabled:opacity-40"
+                className="px-3 sm:px-4 py-2 text-xs sm:text-sm border border-stone-200 rounded-md disabled:opacity-40"
               >
                 {t("common.previous")}
               </button>
-              <span className="px-3 py-2 text-sm text-stone-600">
+              <span className="px-2 sm:px-3 py-2 text-xs sm:text-sm text-stone-600">
                 {pagination.currentPage} / {pagination.totalPages}
               </span>
               <button
                 onClick={() => setPage((p) => p + 1)}
                 disabled={!pagination.hasNextPage}
-                className="px-4 py-2 text-sm border border-stone-200 rounded-md disabled:opacity-40"
+                className="px-3 sm:px-4 py-2 text-xs sm:text-sm border border-stone-200 rounded-md disabled:opacity-40"
               >
                 {t("common.next")}
               </button>
