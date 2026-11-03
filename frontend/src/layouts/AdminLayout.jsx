@@ -6,7 +6,7 @@ import { LayoutDashboard, Package, Tag, LogOut, Menu, X } from "lucide-react";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLang } from "@/hooks/useLang";
 import { useLogout } from "@/hooks/useAuth";
-import phoenixLogo from "@/assets/phoenix-logo.png";
+import phoenixLogo from "@/assets/phoenix_logo_no_text.png";
 
 export default function AdminLayout() {
   const { t } = useTranslation();
