@@ -6,7 +6,7 @@ import { LayoutDashboard, Package, Tag, LogOut, Menu, X } from "lucide-react";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLang } from "@/hooks/useLang";
 import { useLogout } from "@/hooks/useAuth";
-import phoenixLogo from "@/assets/phoenix_logo_no_text.png";
+import phoenixLogo from "@/assets/phoenix-logo.png";
 
 export default function AdminLayout() {
   const { t } = useTranslation();
@@ -14,7 +14,7 @@ export default function AdminLayout() {
   const handleLogout = useLogout();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Lock body scroll when drawer open on mobile
+  // Lock body scroll when mobile drawer is open
   useEffect(() => {
     if (sidebarOpen) {
       document.body.style.overflow = "hidden";
@@ -35,7 +35,7 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen flex bg-stone-50">
-      {/* ───────── Mobile overlay ───────── */}
+      {/* ───── Mobile overlay ───── */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-40 lg:hidden"
@@ -43,17 +43,24 @@ export default function AdminLayout() {
         />
       )}
 
-      {/* ───────── Sidebar ───────── */}
+      {/* ───── Sidebar ───── */}
       <aside
         className={`
-          fixed lg:static inset-y-0 start-0 z-50 w-64 bg-white border-e border-stone-200 flex flex-col
+          fixed lg:sticky top-0 h-screen shrink-0
+          inset-y-0 start-0 z-50 w-64
+          bg-white border-e border-stone-200
+          flex flex-col
           transition-transform duration-300 ease-in-out
-          lg:translate-x-0
+
+          /* Mobile: off-canvas unless open */
           ${
             sidebarOpen
               ? "translate-x-0"
               : "-translate-x-full rtl:translate-x-full"
           }
+
+          /* Desktop: always visible, no transform */
+          lg:translate-x-0 lg:rtl:translate-x-0
         `}
       >
         <div className="p-4 border-b border-stone-200 flex items-center justify-between">
@@ -125,8 +132,8 @@ export default function AdminLayout() {
         </div>
       </aside>
 
-      {/* ───────── Main content ───────── */}
-      <div className="flex-1 flex flex-col min-w-0 w-full">
+      {/* ───── Main column ───── */}
+      <div className="flex-1 flex flex-col min-w-0">
         <header className="sticky top-0 z-30 bg-white border-b border-stone-200 px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <button
