@@ -15,6 +15,7 @@ import {
 } from "../validators/category.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import protect from "../middlewares/auth.middleware.js";
+import upload from "../lib/multer.js";
 
 const router = Router();
 
@@ -24,8 +25,24 @@ router.get("/slug/:slug", getCategoryBySlug);
 router.get("/:id", categoryIdValidator, validate, getCategoryById);
 
 /* --------------------------- Admin only ---------------------- */
-router.post("/", protect, createCategoryValidator, validate, createCategory);
-router.put("/:id", protect, updateCategoryValidator, validate, updateCategory);
+router.post(
+  "/",
+  protect,
+  upload.single("image"),
+  createCategoryValidator,
+  validate,
+  createCategory
+);
+
+router.put(
+  "/:id",
+  protect,
+  upload.single("image"),
+  updateCategoryValidator,
+  validate,
+  updateCategory
+);
+
 router.delete("/:id", protect, categoryIdValidator, validate, deleteCategory);
 
 export default router;

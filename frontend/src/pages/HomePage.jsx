@@ -23,10 +23,10 @@ export default function HomePage() {
 
   const seoTitle =
     lang === "ar"
-      ? "متجري — أفضل المنتجات"
+      ? "PHOENIX — أفضل المنتجات"
       : lang === "fr"
-      ? "Ma Boutique — Les meilleurs produits"
-      : "My Store — Best Products";
+      ? "PHOENIX — Les meilleurs produits"
+      : "PHOENIX — Best Products";
 
   const seoDescription =
     lang === "ar"
@@ -73,7 +73,7 @@ export default function HomePage() {
           />
         </section>
 
-        {/* Categories */}
+        {/* Categories — image cards */}
         {!loadingCats && categories.length > 0 && (
           <section className="mt-10">
             <div className="flex items-center justify-between mb-4">
@@ -88,12 +88,27 @@ export default function HomePage() {
                   <Link
                     key={cat._id}
                     to={`/${lang}/categories/${cat.slug}`}
-                    className="flex flex-col items-center gap-2 p-4 bg-white rounded-xl border border-stone-200 hover:border-primary-300 hover:shadow-sm transition text-center"
+                    className="group block bg-white rounded-xl border border-stone-200 overflow-hidden hover:border-primary-300 hover:shadow-md transition"
                   >
-                    <span className="text-3xl">{cat.emoji || "🍽️"}</span>
-                    <span className="text-sm font-medium text-stone-700 line-clamp-1">
-                      {name}
-                    </span>
+                    <div className="aspect-square bg-stone-100 relative overflow-hidden">
+                      {cat.image ? (
+                        <img
+                          src={cat.image}
+                          alt={name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-5xl">
+                          {cat.emoji || "🍽️"}
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-3 text-center">
+                      <span className="text-sm font-semibold text-stone-800 group-hover:text-primary-600 transition">
+                        {name}
+                      </span>
+                    </div>
                   </Link>
                 );
               })}

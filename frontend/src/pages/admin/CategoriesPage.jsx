@@ -1,7 +1,7 @@
 // src/pages/admin/CategoriesPage.jsx
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Image as ImageIcon } from "lucide-react";
 import { useLang } from "@/hooks/useLang";
 import { useCategories } from "@/hooks/useCategories";
 import {
@@ -18,6 +18,7 @@ const EMPTY_CATEGORY = {
   emoji: "🍽️",
   order: 0,
   isActive: true,
+  image: "",
 };
 
 export default function CategoriesPage() {
@@ -55,6 +56,8 @@ export default function CategoriesPage() {
       emoji: values.emoji,
       order: Number(values.order),
       isActive: values.isActive,
+      imageFile: values.imageFile,
+      removeImage: values.removeImage,
     };
 
     if (editing) {
@@ -175,8 +178,18 @@ export default function CategoriesPage() {
                 className="bg-white border border-stone-200 rounded-lg p-3"
               >
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-xl shrink-0">{cat.emoji}</span>
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    {cat.image ? (
+                      <img
+                        src={cat.image}
+                        alt=""
+                        className="w-12 h-12 rounded-md object-cover shrink-0"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-md bg-stone-100 flex items-center justify-center text-xl shrink-0">
+                        {cat.emoji || "🍽️"}
+                      </div>
+                    )}
                     <div className="min-w-0">
                       <div className="font-medium text-sm truncate">
                         {cat.name?.[lang] || cat.name?.en || "—"}
@@ -248,8 +261,18 @@ export default function CategoriesPage() {
                 {categories.map((cat) => (
                   <tr key={cat._id} className="hover:bg-stone-50">
                     <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xl">{cat.emoji}</span>
+                      <div className="flex items-center gap-3">
+                        {cat.image ? (
+                          <img
+                            src={cat.image}
+                            alt=""
+                            className="w-12 h-12 rounded-md object-cover"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 rounded-md bg-stone-100 flex items-center justify-center text-xl">
+                            {cat.emoji || "🍽️"}
+                          </div>
+                        )}
                         <span className="font-medium">
                           {cat.name?.[lang] || cat.name?.en || "—"}
                         </span>

@@ -5,7 +5,6 @@ import { makeSlug } from "../utils/slugify.js";
 /* -------------------------------------------------------------------------- */
 /*                              Localized field                               */
 /* -------------------------------------------------------------------------- */
-// Reusable sub-schema for { ar, fr, en } strings
 const localizedString = (required = true, max = 200) =>
   new mongoose.Schema(
     {
@@ -39,7 +38,7 @@ const categorySchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-      unique: true, // ← unique index created here (do NOT redeclare below)
+      unique: true,
       lowercase: true,
       trim: true,
       match: [
@@ -51,11 +50,13 @@ const categorySchema = new mongoose.Schema(
       type: localizedString(false, 500),
       default: {},
     },
+    // ── Main image URL (Cloudinary) ──
     image: {
       type: String,
       default: "",
       trim: true,
     },
+    // Kept for backward compatibility / fallback display
     emoji: {
       type: String,
       default: "🍽️",
@@ -86,7 +87,6 @@ const categorySchema = new mongoose.Schema(
 /* -------------------------------------------------------------------------- */
 /*                              Auto-generate slug                            */
 /* -------------------------------------------------------------------------- */
-// Runs on validate if slug is missing — uses English (or fr/ar fallback)
 categorySchema.pre("validate", function () {
   if (!this.slug && this.name) {
     this.slug = makeSlug(this.name);
@@ -96,8 +96,6 @@ categorySchema.pre("validate", function () {
 /* -------------------------------------------------------------------------- */
 /*                              Indexes                                       */
 /* -------------------------------------------------------------------------- */
-// NOTE: `slug` already has a unique index via `unique: true` on the field.
-// Do NOT redeclare it here — that would create a duplicate index.
 categorySchema.index({ isActive: 1, order: 1 });
 categorySchema.index({
   "name.ar": "text",

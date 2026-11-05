@@ -4,7 +4,6 @@ import { body, param } from "express-validator";
 /* -------------------------------------------------------------------------- */
 /*                          Localized string helpers                          */
 /* -------------------------------------------------------------------------- */
-// Require all 3 languages on create
 const requiredLocalized = (field, max) => [
   body(`${field}.ar`)
     .trim()
@@ -26,7 +25,6 @@ const requiredLocalized = (field, max) => [
     .withMessage(`${field}.en cannot exceed ${max} characters`),
 ];
 
-// Optional on update / for seo fields
 const optionalLocalized = (field, max) => [
   body(`${field}.ar`)
     .optional()
@@ -66,6 +64,7 @@ export const createCategoryValidator = [
     .trim()
     .isLength({ max: 8 })
     .withMessage("Emoji must be a single character"),
+  // image is uploaded as file — controller handles the URL, validator just checks strings
   body("image")
     .optional()
     .trim()

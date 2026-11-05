@@ -1,10 +1,52 @@
 // controllers/category.controller.js
 import Category from "../models/category.model.js";
 import Product from "../models/product.model.js";
+import cloudinary from "../config/cloudinary.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import catchAsync from "../utils/catchAsync.js";
 import { makeSlug } from "../utils/slugify.js";
+
+/* -------------------------------------------------------------------------- */
+/*                          Cloudinary helpers                                */
+/* -------------------------------------------------------------------------- */
+const getPublicIdFromUrl = (url) => {
+  if (!url || typeof url !== "string") return null;
+  try {
+    const parts = url.split("/upload/");
+    if (parts.length !== 2) return null;
+    const withoutVersion = parts[1].replace(/^v\d+\//, "");
+    return withoutVersion.replace(/\.[^/.]+$/, "");
+  } catch {
+    return null;
+  }
+};
+
+const uploadBufferToCloudinary = async (
+  file,
+  folder = "ecommerce/categories"
+) => {
+  const base64 = `data:${file.mimetype};base64,${file.buffer.toString(
+    "base64"
+  )}`;
+  const result = await cloudinary.uploader.upload(base64, {
+    folder,
+    transformation: [{ width: 800, height: 800, crop: "limit" }],
+    quality: "auto:good",
+    fetch_format: "auto",
+  });
+  return result.secure_url;
+};
+
+const deleteCloudinaryByUrl = async (url) => {
+  const publicId = getPublicIdFromUrl(url);
+  if (!publicId) return;
+  try {
+    await cloudinary.uploader.destroy(publicId);
+  } catch (err) {
+    console.error("Cloudinary delete failed for", publicId, err.message);
+  }
+};
 
 /* -------------------------------------------------------------------------- */
 /*                              GET /api/categories                           */
@@ -58,8 +100,7 @@ export const getCategoryBySlug = catchAsync(async (req, res) => {
 /*                              POST /api/categories                          */
 /* -------------------------------------------------------------------------- */
 export const createCategory = catchAsync(async (req, res) => {
-  const { name, slug, description, emoji, image, order, isActive, seo } =
-    req.body;
+  const { name, slug, description, emoji, order, isActive, seo } = req.body;
 
   const finalSlug = slug || makeSlug(name);
 
@@ -77,12 +118,18 @@ export const createCategory = catchAsync(async (req, res) => {
     throw new ApiError(409, `Slug "${finalSlug}" is already in use`);
   }
 
+  // ── Upload image if provided ──
+  let imageUrl = "";
+  if (req.file) {
+    imageUrl = await uploadBufferToCloudinary(req.file);
+  }
+
   const category = await Category.create({
     name,
     slug: finalSlug,
     description: description || {},
     emoji: emoji || "🍽️",
-    image: image || "",
+    image: imageUrl,
     order: finalOrder,
     isActive: isActive !== undefined ? isActive : true,
     seo: seo || {},
@@ -97,12 +144,24 @@ export const createCategory = catchAsync(async (req, res) => {
 /*                              PUT /api/categories/:id                       */
 /* -------------------------------------------------------------------------- */
 export const updateCategory = catchAsync(async (req, res) => {
-  const { name, slug, description, emoji, image, order, isActive, seo } =
-    req.body;
+  const { name, slug, description, emoji, order, isActive, seo } = req.body;
 
   const category = await Category.findById(req.params.id);
   if (!category) throw new ApiError(404, "Category not found");
 
+  // ── Handle image: upload new, delete old ──
+  if (req.file) {
+    const uploadedUrl = await uploadBufferToCloudinary(req.file);
+    if (category.image) {
+      await deleteCloudinaryByUrl(category.image);
+    }
+    category.image = uploadedUrl;
+  } else if (req.body.removeImage === "true" && category.image) {
+    await deleteCloudinaryByUrl(category.image);
+    category.image = "";
+  }
+
+  // ── Slug handling ──
   let newSlug = category.slug;
   if (slug !== undefined && slug !== category.slug) {
     const exists = await Category.exists({ slug, _id: { $ne: category._id } });
@@ -116,7 +175,9 @@ export const updateCategory = catchAsync(async (req, res) => {
     });
     if (!exists) newSlug = generated;
   }
+  category.slug = newSlug;
 
+  // ── Other fields ──
   if (name) {
     category.name = {
       ...(category.name?.toObject?.() ?? category.name),
@@ -130,7 +191,6 @@ export const updateCategory = catchAsync(async (req, res) => {
     };
   }
   if (emoji !== undefined) category.emoji = emoji;
-  if (image !== undefined) category.image = image;
   if (order !== undefined) category.order = order;
   if (isActive !== undefined) category.isActive = isActive;
   if (seo) {
@@ -149,7 +209,6 @@ export const updateCategory = catchAsync(async (req, res) => {
       },
     };
   }
-  category.slug = newSlug;
 
   await category.save();
 
@@ -162,8 +221,6 @@ export const updateCategory = catchAsync(async (req, res) => {
 /*                              DELETE /api/categories/:id                    */
 /* -------------------------------------------------------------------------- */
 export const deleteCategory = catchAsync(async (req, res) => {
-  const { force } = req.query;
-
   const category = await Category.findById(req.params.id);
   if (!category) throw new ApiError(404, "Category not found");
 
@@ -174,14 +231,15 @@ export const deleteCategory = catchAsync(async (req, res) => {
   if (productCount > 0) {
     throw new ApiError(
       409,
-      `Cannot delete: ${productCount} product(s) still use this category. Reassign them to another category first.`,
+      `Cannot delete: ${productCount} product(s) still use this category. Reassign them first.`,
       { productCount }
     );
   }
 
-  // force param kept for API compatibility but no longer bypasses the check
-  // (silent orphan products were worse than a clear rejection).
-  void force;
+  // Delete image from Cloudinary
+  if (category.image) {
+    await deleteCloudinaryByUrl(category.image);
+  }
 
   await category.deleteOne();
 
