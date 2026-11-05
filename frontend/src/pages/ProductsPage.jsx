@@ -1,5 +1,4 @@
 // src/pages/ProductsPage.jsx
-import { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { SlidersHorizontal, SearchX } from "lucide-react";
@@ -32,8 +31,16 @@ export default function ProductsPage() {
   const search = params.get("q") || "";
   const sort = params.get("sort") || "newest";
   const page = Number(params.get("page")) || 1;
+  const categoryParam = params.get("category") || "";
 
-  const { data, isLoading } = useProducts({ search, sort, page, limit: 12 });
+  const { data, isLoading, isFetching } = useProducts({
+    search,
+    sort,
+    page,
+    category: categoryParam || undefined,
+    limit: 12,
+  });
+
   const products = data?.products || [];
   const pagination = data?.pagination;
 
@@ -51,7 +58,7 @@ export default function ProductsPage() {
         {t("nav.products")}
       </h1>
 
-      <CategoryStrip />
+      <CategoryStrip activeSlug={categoryParam} />
 
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 my-6 pb-4 border-b border-stone-200">
@@ -105,11 +112,7 @@ export default function ProductsPage() {
                 to={`/${lang}/products`}
                 className="mt-4 text-primary-600 hover:underline text-sm font-medium"
               >
-                {lang === "ar"
-                  ? "مسح البحث"
-                  : lang === "fr"
-                  ? "Effacer la recherche"
-                  : "Clear search"}
+                {t("common.clearSearch")}
               </Link>
             ) : undefined
           }
@@ -122,7 +125,6 @@ export default function ProductsPage() {
             ))}
           </div>
 
-          {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 mt-10">
               <button

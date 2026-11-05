@@ -17,10 +17,17 @@ export default function CategoryPage() {
 
   const { data: category, isLoading: loadingCategory } =
     useCategoryBySlug(slug);
+
+  // Fetch products only AFTER we have the category _id.
+  // This prevents fetching with `category: undefined` on first render.
   const { data: productsData, isLoading: loadingProducts } = useProducts({
     category: category?._id,
     limit: 24,
   });
+
+  // Treat the whole page as loading while we're missing either piece
+  const isInitialLoading = loadingCategory || !category;
+  const isProductsLoading = loadingProducts;
 
   const title = category?.name?.[lang] || category?.name?.en || slug;
   const description =
@@ -44,11 +51,11 @@ export default function CategoryPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Category hero */}
-        <div className="rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-primary-500 to-primary-700 relative">
-          {loadingCategory ? (
-            <div className="h-40 sm:h-52 bg-stone-200 animate-pulse" />
+        <div className="rounded-2xl overflow-hidden mb-6 bg-stone-100 relative">
+          {isInitialLoading ? (
+            <div className="h-40 sm:h-52 md:h-64 bg-stone-200 animate-pulse" />
           ) : (
-            <div className="relative h-40 sm:h-52 md:h-64 flex items-end">
+            <div className="relative h-40 sm:h-52 md:h-64 flex items-end bg-gradient-to-br from-primary-500 to-primary-700">
               {category?.image && (
                 <>
                   <img
@@ -83,10 +90,15 @@ export default function CategoryPage() {
         <CategoryStrip activeSlug={slug} />
 
         <div className="mt-4">
-          {loadingProducts || loadingCategory ? (
+          {isProductsLoading ? (
+            // Show skeleton grid while new products load.
+            // This replaces the previous grid — no stale flash.
             <ProductGridSkeleton count={8} />
           ) : products.length === 0 ? (
-            <EmptyState title={t("category.noProducts")} />
+            <EmptyState
+              title={t("category.noProducts")}
+              message={t("category.noProductsMessage")}
+            />
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {products.map((p) => (
