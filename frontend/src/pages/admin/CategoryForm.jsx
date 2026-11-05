@@ -55,7 +55,10 @@ export default function CategoryForm({
 
   const handleFileSelect = (e) => {
     const file = e.target.files?.[0];
-    if (file) setNewFile(file);
+    if (file) {
+      setNewFile(file);
+      setRemovedImage(false); // selecting a new file cancels "remove"
+    }
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -73,7 +76,7 @@ export default function CategoryForm({
     onSubmit({
       ...values,
       imageFile: newFile || undefined,
-      removeImage: removedImage,
+      removeImage: removedImage, // will be boolean; api layer handles serialization
     });
   };
 
@@ -96,7 +99,7 @@ export default function CategoryForm({
         {/* Image uploader */}
         <div>
           <label className="block text-sm font-medium mb-2">
-            {t("admin.image") || "Image"}
+            {t("common.image")}
           </label>
           <input
             ref={fileInputRef}
@@ -138,11 +141,9 @@ export default function CategoryForm({
             >
               <Upload className="w-8 h-8 mb-2" />
               <span className="text-sm font-medium">
-                {t("admin.uploadImages") || "Upload image"}
+                {t("admin.uploadImages")}
               </span>
-              <span className="text-xs mt-1">
-                {t("common.recommended") || "Recommended: 800×800 or larger"}
-              </span>
+              <span className="text-xs mt-1">{t("common.recommended")}</span>
             </button>
           )}
         </div>
@@ -199,9 +200,6 @@ export default function CategoryForm({
               maxLength={4}
               className="w-full px-3 py-2 border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none text-center text-xl"
             />
-            <p className="text-[10px] text-stone-500 mt-1">
-              {t("common.fallback") || "Fallback when no image"}
-            </p>
           </div>
           <div>
             <label className="block text-sm font-medium mb-1.5">

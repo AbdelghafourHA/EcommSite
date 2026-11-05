@@ -31,13 +31,11 @@ export default function ProductsPage() {
   const search = params.get("q") || "";
   const sort = params.get("sort") || "newest";
   const page = Number(params.get("page")) || 1;
-  const categoryParam = params.get("category") || "";
 
-  const { data, isLoading, isFetching } = useProducts({
+  const { data, isLoading, error } = useProducts({
     search,
     sort,
     page,
-    category: categoryParam || undefined,
     limit: 12,
   });
 
@@ -52,23 +50,35 @@ export default function ProductsPage() {
     setParams(next, { replace: true });
   };
 
+  const goToPage = (newPage) => {
+    const next = new URLSearchParams(params);
+    if (newPage > 1) next.set("page", String(newPage));
+    else next.delete("page");
+    setParams(next, { replace: true });
+    // Scroll to top of grid for better UX
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <h1 className="font-heading font-bold text-2xl md:text-3xl mb-6">
         {t("nav.products")}
       </h1>
 
-      <CategoryStrip activeSlug={categoryParam} />
+      <CategoryStrip />
 
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 my-6 pb-4 border-b border-stone-200">
         <div className="flex items-center gap-2 text-sm text-stone-600">
           <SlidersHorizontal className="w-4 h-4" />
-          {isLoading
-            ? "…"
-            : `${data?.total ?? 0} ${
-                lang === "ar" ? "منتج" : lang === "fr" ? "produits" : "products"
-              }`}
+          {isLoading ? (
+            <span>…</span>
+          ) : (
+            <span>
+              {data?.total ?? 0}{" "}
+              {lang === "ar" ? "منتج" : lang === "fr" ? "produits" : "products"}
+            </span>
+          )}
         </div>
 
         <select
@@ -85,7 +95,9 @@ export default function ProductsPage() {
       </div>
 
       {/* Grid */}
-      {isLoading ? (
+      {error ? (
+        <EmptyState title={t("common.error")} message={error.message} />
+      ) : isLoading ? (
         <ProductGridSkeleton count={12} />
       ) : products.length === 0 ? (
         <EmptyState
@@ -126,20 +138,65 @@ export default function ProductsPage() {
           </div>
 
           {pagination && pagination.totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-10">
+            <div className="flex items-center justify-center gap-2 mt-10 flex-wrap">
               <button
-                onClick={() => updateParam("page", page - 1)}
-                disabled={!pagination.hasPrevPage}
+                onClick={() => goToPage(page - 1)}
+                disabled={!pagination.hasPrevPage || isLoading}
                 className="px-4 py-2 text-sm font-medium border border-stone-200 rounded-lg disabled:opacity-40 hover:bg-stone-50 transition"
               >
                 {t("common.previous")}
               </button>
-              <span className="px-3 py-2 text-sm text-stone-600">
-                {pagination.currentPage} / {pagination.totalPages}
-              </span>
+
+              <div className="flex items-center gap-1">
+                {(() => {
+                  const total = pagination.totalPages;
+                  const current = pagination.currentPage;
+                  const pages = [];
+
+                  const pushPage = (n) => pages.push(n);
+                  const pushDots = () => pages.push("...");
+
+                  if (total <= 7) {
+                    for (let i = 1; i <= total; i++) pushPage(i);
+                  } else {
+                    pushPage(1);
+                    if (current > 3) pushDots();
+                    const start = Math.max(2, current - 1);
+                    const end = Math.min(total - 1, current + 1);
+                    for (let i = start; i <= end; i++) pushPage(i);
+                    if (current < total - 2) pushDots();
+                    pushPage(total);
+                  }
+
+                  return pages.map((p, idx) =>
+                    p === "..." ? (
+                      <span
+                        key={`dots-${idx}`}
+                        className="px-2 text-stone-400 text-sm"
+                      >
+                        …
+                      </span>
+                    ) : (
+                      <button
+                        key={p}
+                        onClick={() => goToPage(p)}
+                        disabled={p === page || isLoading}
+                        className={`min-w-[2.25rem] h-9 px-3 text-sm font-medium rounded-lg transition ${
+                          p === page
+                            ? "bg-primary-500 text-white"
+                            : "border border-stone-200 hover:bg-stone-50"
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    )
+                  );
+                })()}
+              </div>
+
               <button
-                onClick={() => updateParam("page", page + 1)}
-                disabled={!pagination.hasNextPage}
+                onClick={() => goToPage(page + 1)}
+                disabled={!pagination.hasNextPage || isLoading}
                 className="px-4 py-2 text-sm font-medium border border-stone-200 rounded-lg disabled:opacity-40 hover:bg-stone-50 transition"
               >
                 {t("common.next")}

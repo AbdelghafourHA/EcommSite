@@ -53,7 +53,6 @@ const deleteCloudinaryByUrl = async (url) => {
 /* -------------------------------------------------------------------------- */
 export const getCategories = catchAsync(async (req, res) => {
   const { activeOnly } = req.query;
-
   const filter = {};
   if (activeOnly === "true") filter.isActive = true;
 
@@ -118,7 +117,6 @@ export const createCategory = catchAsync(async (req, res) => {
     throw new ApiError(409, `Slug "${finalSlug}" is already in use`);
   }
 
-  // ── Upload image if provided ──
   let imageUrl = "";
   if (req.file) {
     imageUrl = await uploadBufferToCloudinary(req.file);
@@ -144,24 +142,41 @@ export const createCategory = catchAsync(async (req, res) => {
 /*                              PUT /api/categories/:id                       */
 /* -------------------------------------------------------------------------- */
 export const updateCategory = catchAsync(async (req, res) => {
+  console.log("=== UPDATE CATEGORY DEBUG ===");
+  console.log("req.file:", req.file ? "FILE RECEIVED" : "NO FILE");
+  if (req.file) {
+    console.log("  mimetype:", req.file.mimetype);
+    console.log("  size:", req.file.size);
+  }
+  console.log("req.body.removeImage:", req.body.removeImage);
+  console.log("req.body.name:", req.body.name);
+
   const { name, slug, description, emoji, order, isActive, seo } = req.body;
 
   const category = await Category.findById(req.params.id);
   if (!category) throw new ApiError(404, "Category not found");
 
-  // ── Handle image: upload new, delete old ──
+  console.log("category.image BEFORE:", category.image);
+
+  /* ── Image handling (highest priority) ── */
   if (req.file) {
+    // New file uploaded → upload to Cloudinary, delete old, save new
     const uploadedUrl = await uploadBufferToCloudinary(req.file);
     if (category.image) {
       await deleteCloudinaryByUrl(category.image);
     }
     category.image = uploadedUrl;
-  } else if (req.body.removeImage === "true" && category.image) {
+    console.log("✅ NEW IMAGE SET:", uploadedUrl);
+  } else if (String(req.body.removeImage) === "true" && category.image) {
+    // Explicit removal
     await deleteCloudinaryByUrl(category.image);
     category.image = "";
+    console.log("🗑️ IMAGE REMOVED");
+  } else {
+    console.log("ℹ️ No image change");
   }
 
-  // ── Slug handling ──
+  /* ── Slug handling ── */
   let newSlug = category.slug;
   if (slug !== undefined && slug !== category.slug) {
     const exists = await Category.exists({ slug, _id: { $ne: category._id } });
@@ -177,7 +192,7 @@ export const updateCategory = catchAsync(async (req, res) => {
   }
   category.slug = newSlug;
 
-  // ── Other fields ──
+  /* ── Other fields ── */
   if (name) {
     category.name = {
       ...(category.name?.toObject?.() ?? category.name),
@@ -191,7 +206,7 @@ export const updateCategory = catchAsync(async (req, res) => {
     };
   }
   if (emoji !== undefined) category.emoji = emoji;
-  if (order !== undefined) category.order = order;
+  if (order !== undefined) category.order = Number(order);
   if (isActive !== undefined) category.isActive = isActive;
   if (seo) {
     category.seo = {
@@ -211,6 +226,7 @@ export const updateCategory = catchAsync(async (req, res) => {
   }
 
   await category.save();
+  console.log("category.image AFTER:", category.image);
 
   return res
     .status(200)
@@ -236,7 +252,6 @@ export const deleteCategory = catchAsync(async (req, res) => {
     );
   }
 
-  // Delete image from Cloudinary
   if (category.image) {
     await deleteCloudinaryByUrl(category.image);
   }
