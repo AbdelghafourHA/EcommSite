@@ -6,7 +6,9 @@ export const useCategories = (options = {}) => {
   return useQuery({
     queryKey: ["categories", options],
     queryFn: () => fetchCategories(options),
-    staleTime: 5 * 60 * 1000,
+    // Reduce staleTime so mutations are reflected quickly.
+    // The backend is fast; 30s is plenty.
+    staleTime: 30 * 1000,
   });
 };
 
@@ -15,5 +17,6 @@ export const useCategoryBySlug = (slug) => {
     queryKey: ["category", slug],
     queryFn: () => fetchCategoryBySlug(slug),
     enabled: Boolean(slug),
+    staleTime: 30 * 1000,
   });
 };
