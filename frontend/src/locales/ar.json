@@ -15,7 +15,13 @@
     "next": "التالي",
     "previous": "السابق",
     "yes": "نعم",
-    "no": "لا"
+    "no": "لا",
+    "image": "الصورة",
+    "recommended": "الأبعاد الموصى بها: 800×800 أو أكبر",
+    "fallback": "يُستخدم عند عدم وجود صورة",
+    "viewAll": "عرض الكل",
+    "clearSearch": "مسح البحث",
+    "results": "نتيجة"
   },
   "nav": {
     "home": "الرئيسية",
@@ -34,14 +40,27 @@
   },
   "product": {
     "inStock": "متوفر",
-    "outOfStock": "غير متوفر",
+    "outOfStock": "نفذت الكمية",
     "addToCart": "أضف إلى السلة",
+    "addedToCart": "تمت الإضافة إلى السلة",
     "orderWhatsApp": "اطلب عبر واتساب",
     "discount": "خصم",
     "price": "السعر",
     "quantity": "الكمية",
     "description": "الوصف",
-    "relatedProducts": "منتجات ذات صلة"
+    "relatedProducts": "منتجات ذات صلة",
+    "notFound": "المنتج غير موجود",
+    "new": "جديد"
+  },
+  "category": {
+    "products": "المنتجات",
+    "noProducts": "لا توجد منتجات في هذه الفئة",
+    "noProductsMessage": "تحقق قريباً — نضيف منتجات جديدة باستمرار.",
+    "sortBy": "ترتيب حسب",
+    "sortNewest": "الأحدث",
+    "sortPriceAsc": "السعر: من الأقل للأعلى",
+    "sortPriceDesc": "السعر: من الأعلى للأقل",
+    "notFound": "الفئة غير موجودة"
   },
   "cart": {
     "title": "سلة التسوق",
@@ -52,7 +71,8 @@
     "total": "المجموع",
     "checkout": "إتمام الطلب عبر واتساب",
     "remove": "إزالة",
-    "itemAdded": "تمت إضافة المنتج إلى السلة"
+    "itemAdded": "تمت إضافة المنتج إلى السلة",
+    "clearCart": "تفريغ السلة"
   },
   "whatsapp": {
     "greeting": "مرحبا، أريد طلب:",
@@ -73,25 +93,41 @@
     "addProduct": "إضافة منتج",
     "editCategory": "تعديل الفئة",
     "editProduct": "تعديل المنتج",
+    "name": "الاسم",
     "nameAr": "الاسم بالعربية",
     "nameFr": "الاسم بالفرنسية",
     "nameEn": "الاسم بالإنجليزية",
     "slug": "الرابط",
+    "emoji": "الرمز التعبيري",
     "order": "الترتيب",
     "isActive": "نشط",
     "price": "السعر",
     "stock": "المخزون",
     "discount": "الخصم",
     "images": "الصور",
+    "image": "الصورة",
     "isAvailable": "متوفر",
+    "uploadImages": "رفع الصور",
+    "toggleAvailability": "تغيير التوفر",
     "deleteConfirm": "هل أنت متأكد من الحذف؟",
     "loginSuccess": "تم تسجيل الدخول بنجاح",
-    "loginError": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+    "loginError": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "quickActions": "إجراءات سريعة",
+    "welcome": "مرحبا",
+    "totalProducts": "إجمالي المنتجات",
+    "totalCategories": "إجمالي الفئات",
+    "inStockCount": "المنتجات المتوفرة",
+    "outOfStockCount": "المنتجات غير المتوفرة",
+    "actions": "الإجراءات"
   },
   "footer": {
     "about": "من نحن",
     "contact": "اتصل بنا",
     "followUs": "تابعنا",
-    "rights": "جميع الحقوق محفوظة"
+    "rights": "جميع الحقوق محفوظة",
+    "aboutText": "متجرك الأول للمنتجات ذات الجودة العالية. تصفح، اختر، واطلب مباشرة عبر واتساب.",
+    "quickLinks": "روابط سريعة",
+    "orderWhatsApp": "اطلب عبر واتساب",
+    "orderWhatsAppText": "أضف المنتجات للسلة وأتمم طلبك مباشرة عبر واتساب."
   }
 }

@@ -15,7 +15,13 @@
     "next": "Suivant",
     "previous": "Précédent",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "image": "Image",
+    "recommended": "Recommandé : 800×800 ou plus",
+    "fallback": "Utilisé en l'absence d'image",
+    "viewAll": "Voir tout",
+    "clearSearch": "Effacer la recherche",
+    "results": "résultat"
   },
   "nav": {
     "home": "Accueil",
@@ -34,14 +40,27 @@
   },
   "product": {
     "inStock": "En stock",
-    "outOfStock": "Rupture de stock",
+    "outOfStock": "Épuisé",
     "addToCart": "Ajouter au panier",
+    "addedToCart": "Ajouté au panier",
     "orderWhatsApp": "Commander sur WhatsApp",
     "discount": "Remise",
     "price": "Prix",
     "quantity": "Quantité",
     "description": "Description",
-    "relatedProducts": "Produits similaires"
+    "relatedProducts": "Produits similaires",
+    "notFound": "Produit introuvable",
+    "new": "Nouveau"
+  },
+  "category": {
+    "products": "Produits",
+    "noProducts": "Aucun produit dans cette catégorie",
+    "noProductsMessage": "Revenez bientôt — nous ajoutons régulièrement de nouveaux produits.",
+    "sortBy": "Trier par",
+    "sortNewest": "Plus récents",
+    "sortPriceAsc": "Prix : croissant",
+    "sortPriceDesc": "Prix : décroissant",
+    "notFound": "Catégorie introuvable"
   },
   "cart": {
     "title": "Panier",
@@ -52,7 +71,8 @@
     "total": "Total",
     "checkout": "Commander sur WhatsApp",
     "remove": "Retirer",
-    "itemAdded": "Produit ajouté au panier"
+    "itemAdded": "Produit ajouté au panier",
+    "clearCart": "Vider le panier"
   },
   "whatsapp": {
     "greeting": "Bonjour, je souhaite commander :",
@@ -73,25 +93,41 @@
     "addProduct": "Ajouter un produit",
     "editCategory": "Modifier la catégorie",
     "editProduct": "Modifier le produit",
+    "name": "Nom",
     "nameAr": "Nom en arabe",
     "nameFr": "Nom en français",
     "nameEn": "Nom en anglais",
     "slug": "Slug",
+    "emoji": "Emoji",
     "order": "Ordre",
     "isActive": "Actif",
     "price": "Prix",
     "stock": "Stock",
     "discount": "Remise",
     "images": "Images",
+    "image": "Image",
     "isAvailable": "Disponible",
+    "uploadImages": "Télécharger des images",
+    "toggleAvailability": "Basculer la disponibilité",
     "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ?",
     "loginSuccess": "Connexion réussie",
-    "loginError": "Email ou mot de passe invalide"
+    "loginError": "Email ou mot de passe invalide",
+    "quickActions": "Actions rapides",
+    "welcome": "Bienvenue",
+    "totalProducts": "Total produits",
+    "totalCategories": "Total catégories",
+    "inStockCount": "Produits en stock",
+    "outOfStockCount": "Produits épuisés",
+    "actions": "Actions"
   },
   "footer": {
     "about": "À propos",
     "contact": "Contact",
     "followUs": "Suivez-nous",
-    "rights": "Tous droits réservés"
+    "rights": "Tous droits réservés",
+    "aboutText": "Votre première boutique pour des produits de qualité. Parcourez, choisissez, et commandez via WhatsApp.",
+    "quickLinks": "Liens rapides",
+    "orderWhatsApp": "Commandez sur WhatsApp",
+    "orderWhatsAppText": "Ajoutez au panier et finalisez via WhatsApp."
   }
 }

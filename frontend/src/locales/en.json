@@ -15,7 +15,13 @@
     "next": "Next",
     "previous": "Previous",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "image": "Image",
+    "recommended": "Recommended: 800×800 or larger",
+    "fallback": "Used when no image is set",
+    "viewAll": "View all",
+    "clearSearch": "Clear search",
+    "results": "result"
   },
   "nav": {
     "home": "Home",
@@ -36,12 +42,25 @@
     "inStock": "In stock",
     "outOfStock": "Out of stock",
     "addToCart": "Add to cart",
+    "addedToCart": "Added to cart",
     "orderWhatsApp": "Order on WhatsApp",
     "discount": "Discount",
     "price": "Price",
     "quantity": "Quantity",
     "description": "Description",
-    "relatedProducts": "Related products"
+    "relatedProducts": "Related products",
+    "notFound": "Product not found",
+    "new": "New"
+  },
+  "category": {
+    "products": "Products",
+    "noProducts": "No products in this category",
+    "noProductsMessage": "Check back soon — we're adding new products regularly.",
+    "sortBy": "Sort by",
+    "sortNewest": "Newest",
+    "sortPriceAsc": "Price: Low to High",
+    "sortPriceDesc": "Price: High to Low",
+    "notFound": "Category not found"
   },
   "cart": {
     "title": "Shopping cart",
@@ -52,7 +71,8 @@
     "total": "Total",
     "checkout": "Order on WhatsApp",
     "remove": "Remove",
-    "itemAdded": "Product added to cart"
+    "itemAdded": "Product added to cart",
+    "clearCart": "Clear cart"
   },
   "whatsapp": {
     "greeting": "Hello, I'd like to order:",
@@ -73,25 +93,41 @@
     "addProduct": "Add product",
     "editCategory": "Edit category",
     "editProduct": "Edit product",
+    "name": "Name",
     "nameAr": "Name (Arabic)",
     "nameFr": "Name (French)",
     "nameEn": "Name (English)",
     "slug": "Slug",
+    "emoji": "Emoji",
     "order": "Order",
     "isActive": "Active",
     "price": "Price",
     "stock": "Stock",
     "discount": "Discount",
     "images": "Images",
+    "image": "Image",
     "isAvailable": "Available",
+    "uploadImages": "Upload images",
+    "toggleAvailability": "Toggle availability",
     "deleteConfirm": "Are you sure you want to delete?",
     "loginSuccess": "Login successful",
-    "loginError": "Invalid email or password"
+    "loginError": "Invalid email or password",
+    "quickActions": "Quick actions",
+    "welcome": "Welcome",
+    "totalProducts": "Total products",
+    "totalCategories": "Total categories",
+    "inStockCount": "Products in stock",
+    "outOfStockCount": "Out of stock",
+    "actions": "Actions"
   },
   "footer": {
     "about": "About",
     "contact": "Contact",
     "followUs": "Follow us",
-    "rights": "All rights reserved"
+    "rights": "All rights reserved",
+    "aboutText": "Your first store for quality products. Browse, choose, and order via WhatsApp.",
+    "quickLinks": "Quick links",
+    "orderWhatsApp": "Order on WhatsApp",
+    "orderWhatsAppText": "Add to cart and check out directly on WhatsApp."
   }
 }
