@@ -1,8 +1,8 @@
 // src/pages/ProductsPage.jsx
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, SearchX } from "lucide-react";
 import { useLang } from "@/hooks/useLang";
 import { useProducts } from "@/hooks/useProducts";
 import ProductCard from "@/components/ProductCard";
@@ -15,12 +15,12 @@ const SORT_OPTIONS = [
   {
     value: "price_asc",
     labelKey: "sortPriceAsc",
-    fallback: "Price: low to high",
+    fallback: "Price: Low to High",
   },
   {
     value: "price_desc",
     labelKey: "sortPriceDesc",
-    fallback: "Price: high to low",
+    fallback: "Price: High to Low",
   },
 ];
 
@@ -33,13 +33,7 @@ export default function ProductsPage() {
   const sort = params.get("sort") || "newest";
   const page = Number(params.get("page")) || 1;
 
-  const { data, isLoading } = useProducts({
-    search,
-    sort,
-    page,
-    limit: 12,
-  });
-
+  const { data, isLoading } = useProducts({ search, sort, page, limit: 12 });
   const products = data?.products || [];
   const pagination = data?.pagination;
 
@@ -53,14 +47,14 @@ export default function ProductsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      <h1 className="font-heading font-bold text-2xl md:text-3xl mb-4">
+      <h1 className="font-heading font-bold text-2xl md:text-3xl mb-6">
         {t("nav.products")}
       </h1>
 
       <CategoryStrip />
 
       {/* Toolbar */}
-      <div className="flex items-center justify-between gap-3 my-6 pb-4 border-b border-stone-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 my-6 pb-4 border-b border-stone-200">
         <div className="flex items-center gap-2 text-sm text-stone-600">
           <SlidersHorizontal className="w-4 h-4" />
           {isLoading
@@ -73,7 +67,7 @@ export default function ProductsPage() {
         <select
           value={sort}
           onChange={(e) => updateParam("sort", e.target.value)}
-          className="text-sm px-3 py-2 bg-white border border-stone-200 rounded-md focus:border-primary-500 focus:outline-none"
+          className="text-sm px-3 py-2 bg-white border border-stone-200 rounded-lg focus:border-primary-500 focus:outline-none cursor-pointer"
         >
           {SORT_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
@@ -88,21 +82,36 @@ export default function ProductsPage() {
         <ProductGridSkeleton count={12} />
       ) : products.length === 0 ? (
         <EmptyState
+          icon={<SearchX className="w-10 h-10 text-stone-300" />}
           title={
             lang === "ar"
-              ? "لا توجد منتجات"
+              ? "لا توجد نتائج"
               : lang === "fr"
-              ? "Aucun produit"
-              : "No products"
+              ? "Aucun résultat"
+              : "No results found"
           }
           message={
             search
               ? lang === "ar"
-                ? `لا توجد نتائج لـ "${search}"`
+                ? `لم نجد أي شيء لـ "${search}".`
                 : lang === "fr"
-                ? `Aucun résultat pour "${search}"`
-                : `No results for "${search}"`
+                ? `Rien trouvé pour "${search}".`
+                : `Nothing found for "${search}".`
               : undefined
+          }
+          action={
+            search ? (
+              <Link
+                to={`/${lang}/products`}
+                className="mt-4 text-primary-600 hover:underline text-sm font-medium"
+              >
+                {lang === "ar"
+                  ? "مسح البحث"
+                  : lang === "fr"
+                  ? "Effacer la recherche"
+                  : "Clear search"}
+              </Link>
+            ) : undefined
           }
         />
       ) : (
@@ -115,11 +124,11 @@ export default function ProductsPage() {
 
           {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-8">
+            <div className="flex items-center justify-center gap-2 mt-10">
               <button
                 onClick={() => updateParam("page", page - 1)}
                 disabled={!pagination.hasPrevPage}
-                className="px-4 py-2 text-sm border border-stone-200 rounded-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-stone-50"
+                className="px-4 py-2 text-sm font-medium border border-stone-200 rounded-lg disabled:opacity-40 hover:bg-stone-50 transition"
               >
                 {t("common.previous")}
               </button>
@@ -129,7 +138,7 @@ export default function ProductsPage() {
               <button
                 onClick={() => updateParam("page", page + 1)}
                 disabled={!pagination.hasNextPage}
-                className="px-4 py-2 text-sm border border-stone-200 rounded-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-stone-50"
+                className="px-4 py-2 text-sm font-medium border border-stone-200 rounded-lg disabled:opacity-40 hover:bg-stone-50 transition"
               >
                 {t("common.next")}
               </button>
