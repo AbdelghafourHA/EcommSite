@@ -9,6 +9,7 @@ import { useCategories } from "@/hooks/useCategories";
 import ProductCard from "@/components/ProductCard";
 import { ProductGridSkeleton } from "@/components/Skeleton";
 import EmptyState from "@/components/EmptyState";
+import heroImage from "@/assets/hero.jpg";
 
 export default function HomePage() {
   const { t } = useTranslation();
@@ -66,8 +67,7 @@ export default function HomePage() {
           <div
             className="absolute inset-0 bg-cover bg-center opacity-40"
             style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1445205170230-053b83016050?w=1600&q=80')",
+              backgroundImage: `url(${heroImage})`,
             }}
           />
         </section>
